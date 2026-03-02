@@ -9,7 +9,6 @@ const NAV_LINKS = [
     { href: '/', label: 'Home', icon: '🏠' },
     { href: '/schedule', label: 'Schedule', icon: '📅' },
     { href: '/events', label: 'Events', icon: '🎭' },
-    { href: '/announcements', label: 'Updates', icon: '📢' },
     { href: '/gallery', label: 'Gallery', icon: '🖼️' },
     { href: '/feedback', label: 'Feedback', icon: '💬' },
     { href: '/contact', label: 'Contact', icon: '📞' },

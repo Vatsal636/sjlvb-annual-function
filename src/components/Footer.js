@@ -14,7 +14,6 @@ export default function Footer() {
                         <ul>
                             <li><Link href="/schedule">Schedule</Link></li>
                             <li><Link href="/events">Events</Link></li>
-                            <li><Link href="/announcements">Announcements</Link></li>
                             <li><Link href="/gallery">Gallery</Link></li>
                         </ul>
                     </div>
