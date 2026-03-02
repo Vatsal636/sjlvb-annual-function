@@ -97,11 +97,7 @@ export default function Navbar() {
                         ))}
                     </div>
 
-                    {/* CTA */}
-                    <Link href="/login" className="unav__cta">
-                        <span className="unav__cta-shimmer"></span>
-                        <span className="unav__cta-text">🔐 Team</span>
-                    </Link>
+                    {/* CTA removed for Informative Site Only */}
 
                     {/* Mobile Toggle */}
                     <button
@@ -146,13 +142,7 @@ export default function Navbar() {
                             </Link>
                         ))}
                     </div>
-                    <Link
-                        href="/login"
-                        className="umenu__cta"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        🔐 Team Login
-                    </Link>
+                    {/* Mobile CTA removed for Informative Site Only */}
                 </div>
             </div>
         </>
