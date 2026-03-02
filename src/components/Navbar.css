@@ -1,0 +1,591 @@
+/* ================================================================
+   UNIQUE FLOATING NAVBAR — "Orbital Nav"
+   A floating capsule navbar with animated gradient border,
+   sliding pill indicator, and creative mobile fullscreen menu.
+   ================================================================ */
+
+/* ===== FLOATING CAPSULE ===== */
+.unav {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    border-radius: 100px;
+    padding: 2px;
+    /* Border thickness (gradient border trick) */
+    background: linear-gradient(135deg,
+            rgba(155, 138, 251, 0.85),
+            rgba(255, 141, 199, 0.7),
+            rgba(92, 224, 208, 0.7),
+            rgba(155, 138, 251, 0.85));
+    background-size: 300% 300%;
+    animation: navBorderFlow 6s ease infinite;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    max-width: calc(100vw - 32px);
+    width: 65%;
+    height: 67px;
+    box-shadow: 0 0 18px rgba(155, 138, 251, 0.15), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.unav--scrolled {
+    top: 10px;
+    background: linear-gradient(135deg,
+            rgba(155, 138, 251, 1),
+            rgba(255, 141, 199, 0.85),
+            rgba(92, 224, 208, 0.85),
+            rgba(155, 138, 251, 1));
+    background-size: 300% 300%;
+    animation: navBorderFlow 4s ease infinite;
+    box-shadow:
+        0 0 24px rgba(155, 138, 251, 0.3),
+        0 8px 32px rgba(155, 138, 251, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes navBorderFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Outer glow effect */
+.unav__glow {
+    position: absolute;
+    inset: -6px;
+    border-radius: 100px;
+    background: linear-gradient(135deg, rgba(155, 138, 251, 0.15), rgba(255, 141, 199, 0.1), rgba(92, 224, 208, 0.08));
+    background-size: 300% 300%;
+    animation: navBorderFlow 6s ease infinite;
+    filter: blur(12px);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.unav--scrolled .unav__glow {
+    opacity: 1;
+}
+
+/* Inner container */
+.unav__inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: rgba(13, 11, 26, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 100px;
+    position: relative;
+}
+
+.unav--scrolled .unav__inner {
+    background: rgba(13, 11, 26, 0.96);
+}
+
+/* ===== LOGO ORB ===== */
+.unav__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin-right: 4px;
+    flex-shrink: 0;
+}
+
+.unav__logo-orb {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C6FE0, #F0A6CA);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.unav__logo:hover .unav__logo-orb {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.unav__logo-text {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.82rem;
+    color: white;
+    letter-spacing: -.02em;
+    z-index: 1;
+}
+
+.unav__logo-ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255, 141, 199, 0.7);
+    animation: logoSpin 12s linear infinite;
+}
+
+.unav__logo:hover .unav__logo-ring {
+    animation-duration: 3s;
+    border-color: rgba(124, 111, 224, 0.6);
+}
+
+@keyframes logoSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== SLIDING PILL INDICATOR ===== */
+.unav__links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    position: relative;
+}
+
+.unav__pill {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    border-radius: 100px;
+    background: linear-gradient(135deg, rgba(155, 138, 251, 0.15), rgba(255, 141, 199, 0.1));
+    border: 1px solid rgba(155, 138, 251, 0.2);
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ===== NAV LINKS ===== */
+.unav__link {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 100px;
+    transition: color 0.25s ease;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+}
+
+.unav__link:hover {
+    color: var(--primary);
+}
+
+.unav__link--active {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.unav__link-label {
+    position: relative;
+}
+
+/* ===== SHIMMER CTA ===== */
+.unav__cta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 24px;
+    margin-left: 4px;
+    background: linear-gradient(135deg, var(--primary), #9B91E8);
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    border-radius: 100px;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.unav__cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(124, 111, 224, 0.35);
+    color: white;
+}
+
+.unav__cta-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    animation: ctaShimmer 3s ease-in-out infinite;
+}
+
+@keyframes ctaShimmer {
+    0% {
+        left: -100%;
+    }
+
+    50% {
+        left: 100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+.unav__cta-text {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== HAMBURGER TOGGLE (Morphs to X) ===== */
+.unav__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    height: 38px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 4px;
+    border-radius: 50%;
+    transition: background 0.25s ease;
+    flex-shrink: 0;
+}
+
+.unav__toggle:hover {
+    background: rgba(124, 111, 224, 0.08);
+}
+
+.unav__toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text);
+    transition: all 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transform-origin: center;
+}
+
+.unav__toggle span:nth-child(1) {
+    margin-bottom: 5px;
+}
+
+.unav__toggle span:nth-child(2) {
+    margin-bottom: 5px;
+    width: 14px;
+    margin-left: auto;
+}
+
+.unav__toggle span:nth-child(3) {
+    width: 18px;
+}
+
+/* Morphed to X */
+.unav__toggle--open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+    background: var(--primary);
+}
+
+.unav__toggle--open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.unav__toggle--open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+    width: 20px;
+    background: var(--primary);
+}
+
+/* ================================================================
+   MOBILE FULLSCREEN MENU
+   ================================================================ */
+.umenu {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.umenu--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* Floating circles background */
+.umenu__bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 11, 26, 0.97);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+}
+
+.umenu__circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.umenu--open .umenu__circle {
+    opacity: 1;
+}
+
+.umenu__circle--1 {
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(124, 111, 224, 0.12), transparent);
+    top: -40px;
+    right: -60px;
+    animation: menuFloat1 8s ease-in-out infinite;
+}
+
+.umenu__circle--2 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(240, 166, 202, 0.12), transparent);
+    bottom: 60px;
+    left: -40px;
+    animation: menuFloat2 10s ease-in-out infinite 1s;
+}
+
+.umenu__circle--3 {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(119, 201, 212, 0.1), transparent);
+    top: 50%;
+    right: 10%;
+    animation: menuFloat3 7s ease-in-out infinite 2s;
+}
+
+@keyframes menuFloat1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-20px, 20px);
+    }
+}
+
+@keyframes menuFloat2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(15px, -15px);
+    }
+}
+
+@keyframes menuFloat3 {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-10px, 10px);
+    }
+}
+
+/* Menu content */
+.umenu__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 90px 32px 32px;
+}
+
+/* Mobile brand */
+.umenu__brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+}
+
+.umenu__brand-orb {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C6FE0, #F0A6CA);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.umenu__brand-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text);
+}
+
+.umenu__brand-sub {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Mobile links — staggered entrance */
+.umenu__links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.umenu__link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.umenu--open .umenu__link {
+    animation: menuLinkEnter 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes menuLinkEnter {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.umenu__link:hover,
+.umenu__link--active {
+    background: linear-gradient(135deg, rgba(124, 111, 224, 0.08), rgba(240, 166, 202, 0.06));
+}
+
+.umenu__link--active {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.umenu__link-icon {
+    font-size: 1.3rem;
+    width: 32px;
+    text-align: center;
+}
+
+.umenu__link-label {
+    flex: 1;
+}
+
+.umenu__link-arrow {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.25s ease;
+}
+
+.umenu__link:hover .umenu__link-arrow,
+.umenu__link--active .umenu__link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--primary);
+}
+
+/* Mobile CTA */
+.umenu__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--primary), #9B91E8);
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+}
+
+.umenu__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(124, 111, 224, 0.35);
+    color: white;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 1024px) {
+    .unav {
+        width: auto;
+        height: auto;
+    }
+
+    .unav__links {
+        display: none;
+    }
+
+    .unav__cta {
+        display: none;
+    }
+
+    .unav__toggle {
+        display: flex;
+    }
+
+    .unav__inner {
+        padding: 6px 8px 6px 8px;
+    }
+
+    .unav__logo-orb {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .umenu {
+        display: none;
+    }
+}

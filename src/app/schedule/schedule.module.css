@@ -1,0 +1,102 @@
+.timeline {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    padding-left: 40px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--primary-light), var(--secondary-light), var(--accent-light));
+    border-radius: 3px;
+}
+
+.timelineItem {
+    position: relative;
+    margin-bottom: 28px;
+}
+
+.timelineDot {
+    position: absolute;
+    left: -33px;
+    top: 20px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--timeline-color, var(--primary));
+    border: 3px solid var(--surface);
+    box-shadow: 0 0 0 3px var(--timeline-color, var(--primary-light));
+    z-index: 1;
+}
+
+.timelineCard {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: all var(--transition);
+    border-left: 3px solid var(--timeline-color, var(--primary));
+}
+
+.timelineCard:hover {
+    box-shadow: var(--shadow-lg), 0 0 16px rgba(155, 138, 251, 0.06);
+    transform: translateX(4px);
+}
+
+.timelineHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.timelineTime {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary);
+}
+
+.timelineTitle {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+}
+
+.timelineDesc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.timelineVenue {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+@media (max-width: 640px) {
+    .timeline {
+        padding-left: 32px;
+    }
+
+    .timeline::before {
+        left: 12px;
+    }
+
+    .timelineDot {
+        left: -27px;
+        width: 12px;
+        height: 12px;
+    }
+
+    .timelineCard {
+        padding: 16px;
+    }
+}
