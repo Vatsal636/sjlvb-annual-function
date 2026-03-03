@@ -7,10 +7,26 @@ import styles from './contact.module.css';
 export default function ContactPage() {
     const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
     const [submitted, setSubmitted] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmitted(true);
+        setSubmitting(true);
+        try {
+            const res = await fetch('https://formspree.io/f/xvzbepgk', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(form),
+            });
+            if (res.ok) {
+                setSubmitted(true);
+            } else {
+                alert('Failed to send message. Please try again.');
+            }
+        } catch {
+            alert('Failed to send message. Please try again.');
+        }
+        setSubmitting(false);
     };
 
     const team = [
@@ -94,8 +110,8 @@ export default function ContactPage() {
                                                 required
                                             ></textarea>
                                         </div>
-                                        <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                                            📬 Send Message
+                                        <button type="submit" className="btn btn-primary" disabled={submitting} style={{ width: '100%' }}>
+                                            {submitting ? 'Sending...' : '📬 Send Message'}
                                         </button>
                                     </form>
                                 )}

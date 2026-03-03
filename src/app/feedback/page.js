@@ -18,12 +18,21 @@ export default function FeedbackPage() {
         }
         setSubmitting(true);
         try {
-            await fetch('/api/feedback', {
+            const res = await fetch('https://formspree.io/f/mojngava', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(form),
+                body: JSON.stringify({
+                    name: form.is_anonymous ? 'Anonymous' : (form.name || 'Anonymous'),
+                    rating: form.rating,
+                    category: form.category,
+                    comment: form.comment,
+                }),
             });
-            setSubmitted(true);
+            if (res.ok) {
+                setSubmitted(true);
+            } else {
+                alert('Failed to submit feedback. Please try again.');
+            }
         } catch {
             alert('Failed to submit feedback');
         }
