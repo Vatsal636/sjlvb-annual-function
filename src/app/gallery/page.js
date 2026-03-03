@@ -1,27 +1,70 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ScrollReveal from '../../components/ScrollReveal';
 import styles from './gallery.module.css';
 
-const DEMO_IMAGES = [
-    { id: 1, title: 'Stage Setup', category: 'decoration', url: '🎪' },
-    { id: 2, title: 'Dance Rehearsal', category: 'rehearsal', url: '💃' },
-    { id: 3, title: 'Singing Practice', category: 'rehearsal', url: '🎤' },
-    { id: 4, title: 'Decoration Work', category: 'decoration', url: '🎨' },
-    { id: 5, title: 'Team Meeting', category: 'backstage', url: '👥' },
-    { id: 6, title: 'Sound Check', category: 'backstage', url: '🔊' },
-    { id: 7, title: 'Drama Rehearsal', category: 'rehearsal', url: '🎭' },
-    { id: 8, title: 'Banner Design', category: 'decoration', url: '🖼️' },
-    { id: 9, title: 'Fashion Prep', category: 'backstage', url: '👗' },
-];
+const CLOUD_NAME = 'dgjy5jlyp';
+const TAG = 'annual';
+
+function getCloudinaryUrl(publicId, format, transforms = '') {
+    const base = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload`;
+    return transforms
+        ? `${base}/${transforms}/${publicId}.${format}`
+        : `${base}/${publicId}.${format}`;
+}
 
 export default function GalleryPage() {
-    const [filter, setFilter] = useState('all');
-    const [selected, setSelected] = useState(null);
+    const [images, setImages] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedIndex, setSelectedIndex] = useState(null);
 
-    const categories = ['all', 'decoration', 'rehearsal', 'backstage'];
-    const filtered = filter === 'all' ? DEMO_IMAGES : DEMO_IMAGES.filter(img => img.category === filter);
+    useEffect(() => {
+        fetch(`https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG}.json`)
+            .then(r => r.json())
+            .then(data => {
+                const resources = data.resources || [];
+                const mapped = resources.map(img => ({
+                    publicId: img.public_id,
+                    format: img.format,
+                    width: img.width,
+                    height: img.height,
+                    createdAt: img.created_at,
+                    thumb: getCloudinaryUrl(img.public_id, img.format, 'w_500,h_500,c_fill,q_auto,f_auto'),
+                    full: getCloudinaryUrl(img.public_id, img.format, 'w_1400,q_auto,f_auto'),
+                }));
+                setImages(mapped);
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
+    }, []);
+
+    const openLightbox = (index) => setSelectedIndex(index);
+    const closeLightbox = () => setSelectedIndex(null);
+
+    const goNext = useCallback(() => {
+        if (selectedIndex !== null) {
+            setSelectedIndex((selectedIndex + 1) % images.length);
+        }
+    }, [selectedIndex, images.length]);
+
+    const goPrev = useCallback(() => {
+        if (selectedIndex !== null) {
+            setSelectedIndex((selectedIndex - 1 + images.length) % images.length);
+        }
+    }, [selectedIndex, images.length]);
+
+    // Keyboard navigation
+    useEffect(() => {
+        const handleKey = (e) => {
+            if (selectedIndex === null) return;
+            if (e.key === 'ArrowRight') goNext();
+            if (e.key === 'ArrowLeft') goPrev();
+            if (e.key === 'Escape') closeLightbox();
+        };
+        window.addEventListener('keydown', handleKey);
+        return () => window.removeEventListener('keydown', handleKey);
+    }, [selectedIndex, goNext, goPrev]);
 
     return (
         <div className="page-wrapper">
@@ -30,62 +73,75 @@ export default function GalleryPage() {
                     <ScrollReveal animation="fade-up">
                         <div className="section-header">
                             <h2><span className="section-icon">🖼️</span> Gallery</h2>
-                            <p>Moments captured from preparations and the event</p>
+                            <p>Moments captured from the event</p>
                         </div>
                     </ScrollReveal>
 
-                    <div className="tabs" style={{ justifyContent: 'center', margin: '0 auto 40px' }}>
-                        {categories.map(cat => (
-                            <button
-                                key={cat}
-                                className={`tab ${filter === cat ? 'active' : ''}`}
-                                onClick={() => setFilter(cat)}
-                            >
-                                {cat === 'all' ? '🌟 All' : cat.charAt(0).toUpperCase() + cat.slice(1)}
-                            </button>
-                        ))}
-                    </div>
-
-                    <div className={styles.galleryGrid}>
-                        {filtered.map((img, i) => (
-                            <ScrollReveal animation="scale-in" delay={(i % 6) * 80} key={img.id}>
-                                <div
-                                    className={styles.galleryItem}
-                                    onClick={() => setSelected(img)}
-                                >
-                                    <div className={styles.galleryPlaceholder}>
-                                        <span className={styles.galleryEmoji}>{img.url}</span>
-                                    </div>
-                                    <div className={styles.galleryOverlay}>
-                                        <span className={styles.galleryTitle}>{img.title}</span>
-                                        <span className={`badge badge-primary`}>{img.category}</span>
-                                    </div>
-                                </div>
-                            </ScrollReveal>
-                        ))}
-                    </div>
-
-                    <div className={styles.galleryNote}>
-                        <div className="alert alert-info">
-                            📸 Photos and videos will be uploaded here during and after the event. Stay tuned!
+                    {loading ? (
+                        <div className="empty-state"><p>Loading gallery...</p></div>
+                    ) : images.length === 0 ? (
+                        <div className={styles.emptyGallery}>
+                            <div className={styles.emptyIcon}>📸</div>
+                            <h3>Photos Coming Soon!</h3>
+                            <p>Photos and videos will be uploaded here during and after the event. Stay tuned!</p>
                         </div>
-                    </div>
+                    ) : (
+                        <>
+                            <p className={styles.photoCount}>{images.length} photo{images.length !== 1 ? 's' : ''}</p>
+                            <div className={styles.galleryGrid}>
+                                {images.map((img, i) => (
+                                    <ScrollReveal animation="scale-in" delay={(i % 9) * 60} key={img.publicId}>
+                                        <div
+                                            className={styles.galleryItem}
+                                            onClick={() => openLightbox(i)}
+                                        >
+                                            <img
+                                                src={img.thumb}
+                                                alt={`Event photo ${i + 1}`}
+                                                className={styles.galleryImage}
+                                                loading="lazy"
+                                            />
+                                            <div className={styles.galleryOverlay}>
+                                                <span className={styles.zoomIcon}>🔍</span>
+                                            </div>
+                                        </div>
+                                    </ScrollReveal>
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </div>
             </section>
 
             {/* Lightbox */}
-            {selected && (
-                <div className="modal-overlay" onClick={() => setSelected(null)}>
-                    <div className="modal" onClick={e => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3>{selected.title}</h3>
-                            <button className="modal-close" onClick={() => setSelected(null)}>✕</button>
-                        </div>
-                        <div className={styles.lightboxContent}>
-                            <span style={{ fontSize: '6rem' }}>{selected.url}</span>
-                            <p style={{ marginTop: 16, color: 'var(--text-muted)' }}>Category: {selected.category}</p>
-                        </div>
+            {selectedIndex !== null && (
+                <div className={styles.lightbox} onClick={closeLightbox}>
+                    <button className={styles.lightboxClose} onClick={closeLightbox}>✕</button>
+
+                    <button
+                        className={`${styles.lightboxNav} ${styles.lightboxPrev}`}
+                        onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                    >
+                        ‹
+                    </button>
+
+                    <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
+                        <img
+                            src={images[selectedIndex].full}
+                            alt={`Event photo ${selectedIndex + 1}`}
+                            className={styles.lightboxImage}
+                        />
+                        <p className={styles.lightboxCounter}>
+                            {selectedIndex + 1} / {images.length}
+                        </p>
                     </div>
+
+                    <button
+                        className={`${styles.lightboxNav} ${styles.lightboxNext}`}
+                        onClick={(e) => { e.stopPropagation(); goNext(); }}
+                    >
+                        ›
+                    </button>
                 </div>
             )}
         </div>
