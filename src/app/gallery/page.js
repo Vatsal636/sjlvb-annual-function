@@ -5,14 +5,6 @@ import ScrollReveal from '../../components/ScrollReveal';
 import styles from './gallery.module.css';
 
 const CLOUD_NAME = 'dgjy5jlyp';
-const TAG = 'annual';
-
-function getCloudinaryUrl(publicId, format, transforms = '') {
-    const base = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload`;
-    return transforms
-        ? `${base}/${transforms}/${publicId}.${format}`
-        : `${base}/${publicId}.${format}`;
-}
 
 export default function GalleryPage() {
     const [images, setImages] = useState([]);
@@ -20,20 +12,10 @@ export default function GalleryPage() {
     const [selectedIndex, setSelectedIndex] = useState(null);
 
     useEffect(() => {
-        fetch(`https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG}.json`)
+        fetch('/api/gallery')
             .then(r => r.json())
             .then(data => {
-                const resources = data.resources || [];
-                const mapped = resources.map(img => ({
-                    publicId: img.public_id,
-                    format: img.format,
-                    width: img.width,
-                    height: img.height,
-                    createdAt: img.created_at,
-                    thumb: getCloudinaryUrl(img.public_id, img.format, 'w_500,h_500,c_fill,q_auto,f_auto'),
-                    full: getCloudinaryUrl(img.public_id, img.format, 'w_1400,q_auto,f_auto'),
-                }));
-                setImages(mapped);
+                setImages(data.images || []);
                 setLoading(false);
             })
             .catch(() => setLoading(false));
