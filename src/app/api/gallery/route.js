@@ -5,6 +5,7 @@ cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true,
 });
 
 export async function GET() {
@@ -27,11 +28,13 @@ export async function GET() {
                 crop: 'fill',
                 quality: 'auto',
                 format: 'auto',
+                secure: true,
             }),
             full: cloudinary.url(img.public_id, {
                 width: 1400,
                 quality: 'auto',
                 format: 'auto',
+                secure: true,
             }),
         }));
 
