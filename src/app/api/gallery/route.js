@@ -27,14 +27,16 @@ export async function GET() {
                 height: 500,
                 crop: 'fill',
                 quality: 'auto',
-                format: 'auto',
+                fetch_format: 'auto',
                 secure: true,
+                format: img.format,
             }),
             full: cloudinary.url(img.public_id, {
                 width: 1400,
                 quality: 'auto',
-                format: 'auto',
+                fetch_format: 'auto',
                 secure: true,
+                format: img.format,
             }),
         }));
 
