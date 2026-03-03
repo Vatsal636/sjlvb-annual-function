@@ -38,7 +38,7 @@ export default function EventsPage() {
                 <div className="container">
                     <ScrollReveal animation="fade-up">
                         <div className="section-header">
-                            <h2>🎭 Events &amp; Competitions</h2>
+                            <h2><span className="section-icon">🎭</span> Events &amp; Competitions</h2>
                             <p>Explore all events and find the one that matches your talent!</p>
                         </div>
                     </ScrollReveal>

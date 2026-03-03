@@ -28,7 +28,7 @@ export default function ContactPage() {
                 <div className="container">
                     <ScrollReveal animation="fade-up">
                         <div className="section-header">
-                            <h2>📞 Contact Us</h2>
+                            <h2><span className="section-icon">📞</span> Contact Us</h2>
                             <p>Have a question, suggestion, or want to participate? Reach out!</p>
                         </div>
                     </ScrollReveal>

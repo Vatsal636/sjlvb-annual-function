@@ -29,7 +29,7 @@ export default function GalleryPage() {
                 <div className="container">
                     <ScrollReveal animation="fade-up">
                         <div className="section-header">
-                            <h2>🖼️ Gallery</h2>
+                            <h2><span className="section-icon">🖼️</span> Gallery</h2>
                             <p>Moments captured from preparations and the event</p>
                         </div>
                     </ScrollReveal>

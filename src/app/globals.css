@@ -152,6 +152,16 @@ img {
   background-clip: text;
 }
 
+.section-header h2 .section-icon {
+  -webkit-text-fill-color: initial;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  margin-right: 8px;
+  display: inline-block;
+  font-style: normal;
+}
+
 .section-header p {
   font-size: 1.1rem;
   max-width: 600px;

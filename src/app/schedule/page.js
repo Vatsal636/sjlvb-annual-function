@@ -38,7 +38,7 @@ export default function SchedulePage() {
                 <div className="container">
                     <ScrollReveal animation="fade-up">
                         <div className="section-header">
-                            <h2>📅 Event Schedule</h2>
+                            <h2><span className="section-icon">📅</span> Event Schedule</h2>
                             <p>The complete day plan for March 15, 2026</p>
                         </div>
                     </ScrollReveal>

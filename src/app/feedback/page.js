@@ -55,7 +55,7 @@ export default function FeedbackPage() {
                 <div className="container">
                     <ScrollReveal animation="fade-up">
                         <div className="section-header">
-                            <h2>💬 Share Your Feedback</h2>
+                            <h2><span className="section-icon">💬</span> Share Your Feedback</h2>
                             <p>Help us improve by sharing your experience and suggestions</p>
                         </div>
                     </ScrollReveal>
