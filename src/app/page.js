@@ -186,13 +186,6 @@ export default function HomePage() {
               <p>Announcements will appear here</p>
             </div>
           )}
-          // <ScrollReveal animation="fade-up" delay={300}>
-          //   <div style={{ textAlign: 'center', marginTop: 32 }}>
-          //     <Link href="/announcements" className="btn btn-secondary">
-          //       All Announcements →
-          //     </Link>
-          //   </div>
-          // </ScrollReveal>
         </div>
       </section>
 
