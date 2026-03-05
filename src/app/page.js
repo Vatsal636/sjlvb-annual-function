@@ -157,7 +157,7 @@ export default function HomePage() {
         <div className="container">
           <ScrollReveal animation="fade-up">
             <div className="section-header">
-              <h2>📢 Latest Announcements</h2>
+              <h2><span className="section-icon">📢<span className="section-icon"> Latest Announcements</h2>
               <p>Stay updated with the latest news and updates</p>
             </div>
           </ScrollReveal>
