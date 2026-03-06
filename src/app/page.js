@@ -118,7 +118,7 @@ export default function HomePage() {
         <div className="container">
           <ScrollReveal animation="fade-up">
             <div className="section-header">
-              <h2>🎪 What&apos;s Happening</h2>
+              <h2><span className="section-icon">🎪</span> What&apos;s Happening</h2>
               <p>From dances to dramas, singing to music — there&apos;s something for everyone!</p>
             </div>
           </ScrollReveal>
@@ -157,7 +157,7 @@ export default function HomePage() {
         <div className="container">
           <ScrollReveal animation="fade-up">
             <div className="section-header">
-              <h2>📢 Latest Announcements</h2>
+              <h2><span className="section-icon">📢</span> Latest Announcements</h2>
               <p>Stay updated with the latest news and updates</p>
             </div>
           </ScrollReveal>
@@ -186,13 +186,7 @@ export default function HomePage() {
               <p>Announcements will appear here</p>
             </div>
           )}
-          {/* <ScrollReveal animation="fade-up" delay={300}>
-            <div style={{ textAlign: 'center', marginTop: 32 }}>
-              <Link href="/announcements" className="btn btn-secondary">
-                All Announcements →
-              </Link>
-            </div>
-          </ScrollReveal> */}
+
         </div>
       </section>
 
