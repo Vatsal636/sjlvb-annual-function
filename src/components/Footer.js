@@ -26,7 +26,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="footer-bottom">
-                    <p>© 2026 SJLVB & SJLKC Annual Function. Made with ❤️</p>
+                    <p>© 2026 SJLVB & SJLKC Annual Function. Made with ❤️ by Vatsal Gokani.</p>
                 </div>
             </div>
         </footer>

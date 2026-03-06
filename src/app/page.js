@@ -5,7 +5,7 @@ import Link from 'next/link';
 import ScrollReveal from '../components/ScrollReveal';
 import styles from './page.module.css';
 
-const EVENT_DATE = new Date('2026-03-15T09:00:00+05:30');
+const EVENT_DATE = new Date('2026-03-15T17:00:00+05:30');
 
 function getTimeLeft() {
   const now = new Date();
@@ -186,13 +186,13 @@ export default function HomePage() {
               <p>Announcements will appear here</p>
             </div>
           )}
-          <ScrollReveal animation="fade-up" delay={300}>
+          {/* <ScrollReveal animation="fade-up" delay={300}>
             <div style={{ textAlign: 'center', marginTop: 32 }}>
               <Link href="/announcements" className="btn btn-secondary">
                 All Announcements →
               </Link>
             </div>
-          </ScrollReveal>
+          </ScrollReveal> */}
         </div>
       </section>
 
